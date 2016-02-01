@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta name="description" content="">
+    <meta name="keywords" content="兼职，去实习，大学实习，大三，企业">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+	<title>企业登陆 | Go to Practice-全国大学生实习平台</title>
+	<link rel="icon" sizes="any" href="/static/webuser/style/img/favicon.ico">
+	<link rel="shortcut icon" href="/static/webuser/style/img/favicon.ico" type="image/x-icon" />
+	<link rel="stylesheet" type="text/css" href="/static/webuser/style/css/HRstyle.css">
+    <script type="text/javascript" src="/static/webuser/style/js/check.js"></script>
+	<!--[if lt IE 9]>
+    <script src="/static/webuser/style/js/html5shiv.js"></script>
+    <script src="/static/webuser/style/js/respond.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+    <!-- header开始 -->
+    <header>
+        <a class="webname" href="#">实习去</a>
+        <div class="submenu">
+        	<ul> 
+        	    <li><a href="#">首页</a></li>
+        	    <li><a href="#">最新招聘</a></li>
+                <li><a href="#">合作企业</a></li>
+                <li><a href="#">关于我们</a></li>
+        	</ul>
+        </div>
+    </header>
+    <!-- header结束 -->
+    <!-- content开始 -->
+    <div class="content">
+        <div class="HRlogin">
+            <h2 class="HRlogin_p">企业登陆</h2>
+            <form class="" method="post" action='' onsubmit="return check()">{% csrf_token %}
+                <div class="HRlogin_content">
+                    <ul>
+                        {{ form.as_ul }}
+{#                        <li>#}
+{#                            {{ form.errors.username }}#}
+{#                            <label for="username">账号:</label>#}
+{#                            <input type="text" name="username" value="" id="username">#}
+{#                        </li>#}
+{#                        <li>#}
+{#                            {{ form.errors.password }}#}
+{#                            <label for="password">密码:</label>#}
+{#                            <input type="password" name="password" value="" id="password">#}
+{#                        </li>#}
+                    </ul>
+                </div>
+                <div class="HRlogin_button">
+                    <input type="submit" value="登陆">
+                    <input type="reset" value="重置">
+                    <input type="hidden" name="next" value="/success/" />
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- content结束 -->
+    <!-- footer开始 -->
+    <footer>
+    	<div class="footerinfo">
+    		<p>
+    		    <a onclick="this.style.behavior='url(#default#homepage)';this.setHomePage('网址链接');" href="javascript:">设为首页</a>&nbsp;|&nbsp;
+    		    <a href="javascript:" onclick="window.external.addFavorite(parent.location.href,document.title);">加入收藏</a>&nbsp;|&nbsp;
+    		    <a href="#" target="_blank">关于我们</a>&nbsp;|&nbsp;
+    		    <a href="#" target="_blank">企业合作</a>
+    		</p>
+    		<p>Copyright &copy 2016&nbsp;|&nbsp;<a href="#">去实习&nbsp;|&nbsp;Go to Practice-全国大学生实习平台</a>&nbsp;|&nbsp;All Rights Reserved</p>
+    	</div>
+    </footer>
+    <!--[if IE 6]->  
+    <style>  
+    body{height:100%;} /* IE在高度不够时会自动撑开层*/  
+    </style>  
+    <![endif]-->  
+    <!-- footer结束 -->
+</body>
+</html>

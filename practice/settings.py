@@ -57,6 +57,7 @@ ROOT_URLCONF = 'practice.urls'
 
 WSGI_APPLICATION = 'practice.wsgi.application'
 
+LOGIN_REDIRECT_URL = '/success/'
 
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
@@ -87,6 +88,10 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, "static"),
+)
+
 TEMPLATE_DIRS = (os.path.join(BASE_DIR,  'templates'),)
 
 REST_FRAMEWORK = {
@@ -96,7 +101,7 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.AllowAny'
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.BasicAuthentication',
+        # 'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.TokenAuthentication',
     )

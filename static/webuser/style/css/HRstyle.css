@@ -1,0 +1,123 @@
+﻿@charset"utf-5";
+@import url(reset.css);
+/*Design By Chao*/
+body{font-family: "Microsoft Yahei","Helvetica Neue",Helvetica,Arial,sans-serif;background:#EEE;;margin: 0px;padding: 0px;width: 100%;height: 100%;/*overflow:hidden;*/}
+img{border:none;}
+li{list-style: none;}
+a{outline:none;text-decoration: none;}
+/*header开始*/
+header{
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	height: 50px;
+	background: #00B198 none repeat scroll 0% 0%;
+}
+.webname{
+	line-height: 50px;
+	float: left;
+	padding-left: 100px;
+	color: #EEE;
+	font-size: 28px;
+}
+.submenu ul{
+	margin:0;
+	height: 50px;
+	float: left;
+	padding-left: 200px;
+}
+.submenu ul li{
+    float: left;
+}
+.submenu ul li a{
+	display: block;
+    color: #fff;
+	padding-left: 25px;
+	padding-right: 25px;
+	font-size: 16px;
+	line-height: 50px;
+	text-align: center;
+}
+.submenu ul li a:hover{
+	color: #555;
+	border-bottom: 3px solid #08C;
+}
+/*header结束*/
+/*content开始*/
+.content{
+	width: 100%;
+	height: 450px;
+}
+.HRlogin{
+	float: right;
+	background: #fff;
+	width: 450px;
+	height: 400px;
+	margin-top: 20px;
+	margin-right: 100px;
+    border-radius:5px 5px 5px 5px;
+}
+.HRlogin_p{
+	text-align: center;
+    color: #00B198;
+}
+.HRlogin_content{
+
+}
+.HRlogin_content ul li {
+	color: #00B198;
+	margin-left: 50px;
+	margin-top: 10px;
+}
+.HRlogin_content ul li strong{
+
+}
+.HRlogin_content ul li input{
+	margin-top: 10px;
+	height: 30px;
+	width: 200px;
+    font-size: 15px;
+    color: #00B198;
+}
+.HRlogin_button{
+	margin-left: 100px;
+}
+.HRlogin_button input{
+    margin-left: 20px;
+    margin-top: 25px;
+    width: 100px;
+    height: 35px;
+	font-size: 15px;
+	background: #fff;
+	color: #00B198;
+	border: 1px solid #00B198;
+	border-radius:5px 5px 5px 5px;
+}
+.HRlogin_button input:hover{
+	background: #00B198 none repeat scroll 0% 0%;
+	color: #fff;
+	border: 1px solid #00B198;
+	border-radius:5px 5px 5px 5px;
+}
+/*content结束*/
+/*footer开始*/
+footer{
+	width: 100%;
+	height: 90px;
+    position: absolute;  bottom: 0;
+	background: #00B198 none repeat scroll 0% 0%;
+	color: #fff;
+}
+.footerinfo{
+	padding-top: 1px;
+    margin: 0 auto;
+    text-align: center;
+    font-size:14px;
+}
+.footerinfo p a{
+	color: #fff;
+}
+.footerinfo p a:hover{
+	color:#555;
+}
+/*footer结束*/
