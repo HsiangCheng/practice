@@ -26,7 +26,7 @@ class TestViewSet(ListModelMixin ,RetrieveModelMixin, viewsets.GenericViewSet):
     # support "PATCH" method
     def partial_update(self, request, *args, **kwargs):
         print "success"
-        return Response({"success": "11"})
+        return Response({"success": "partial_update"})
 
 
 
