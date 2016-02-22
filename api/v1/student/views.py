@@ -9,18 +9,6 @@ from api.v1.permissions import IsUserPermission, IsStudent
 from api.v1.student.serializers import StudentSerializer
 from webuser.models import Student
 
-# class StudentRootView(APIView):
-#     def get(self, request, *args, **kwargs):
-#         data = {
-#             'student-detail':
-#                 reverse(
-#                     'api:v1:student:student-detail',
-#                     request=request,
-#                     kwargs={'username': '--username--'}
-#                 ),
-#         }
-#         return Response(data)
-
 class StudentDetailAPIView(UpdateModelMixin, RetrieveModelMixin, GenericAPIView):
     serializer_class = StudentSerializer
     queryset = Student.objects.all()
@@ -42,14 +30,16 @@ class StudentDetailAPIView(UpdateModelMixin, RetrieveModelMixin, GenericAPIView)
     def patch(self, request, username):
         """
         ---
+        omit_parameters:
+            - form
         parameters:
             - name: Authorization
               paramType: header
               type: string
               required: True
-            - name: resume
-              paramType: form
-
+            - name: body
+              paramType: body
+              type: WriteStudentSerializer
 
         """
         return self.partial_update(request)

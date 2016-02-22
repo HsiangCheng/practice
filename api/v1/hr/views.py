@@ -8,18 +8,6 @@ from api.v1.hr.serializers import HrSerializer
 from api.v1.permissions import IsUserPermission, IsHr
 from webuser.models import Hr
 
-# class HrRootView(APIView):
-#     def get(self, request):
-#         data = {
-#             'hr-detail':
-#                 reverse(
-#                     'api:v1:hr:hr-detail',
-#                     request=request,
-#                     kwargs={'username': '--username--'}
-#                 ),
-#         }
-#         return Response(data)
-
 class HrDetailAPIView(UpdateModelMixin, RetrieveModelMixin, GenericAPIView):
     serializer_class = HrSerializer
     queryset = Hr.objects.all()

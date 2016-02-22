@@ -29,7 +29,7 @@ class LoginForm(forms.Form):
         self.user_cache = None
         super(LoginForm, self).__init__(*args, **kwargs)
 
-        self.UserModel = get_user_model()
+        self.UserModel = Hr
 
 
     def clean_username(self):
@@ -37,7 +37,7 @@ class LoginForm(forms.Form):
         #     return True
         # else:
         username = self.cleaned_data.get('username')
-        if not self.UserModel.objects.filter(username=username).exists():
+        if not self.UserModel.objects.filter(user__username=username).exists():
             raise forms.ValidationError(
                 self.error_messages['inexistent_user'],
                 code='inexistent_user'

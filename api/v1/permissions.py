@@ -1,5 +1,6 @@
 # --coding: utf-8--
 from rest_framework import permissions
+from rest_framework.permissions import SAFE_METHODS
 from webuser.models import *
 
 class IsOwnerPermission(permissions.BasePermission):
@@ -28,7 +29,15 @@ class IsHr(permissions.BasePermission):
     def has_permission(self, request, view):
         return (
             request.user.is_authenticated() and
-            request.user.groups.filter(name='hr').count() > 0
+            request.user.groups.filter(name='hr').exists()
+        )
+
+class IsHrOrReadOnly(permissions.BasePermission):
+    def has_permission(self, request, view):
+        return (
+            request.method in SAFE_METHODS or
+            request.user.is_authenticated() and
+            request.user.groups.filter(name='hr').exists()
         )
 
 class IsHrOrOwner(IsHr):
@@ -43,19 +52,6 @@ class IsStudent(permissions.BasePermission):
     def has_permission(self, request, view):
         return (
             request.user.is_authenticated() and
-            request.user.groups.filter(name='student').count() > 0
+            request.user.groups.filter(name='student').exists()
         )
 
-
-# class IsReadPermissions(permissions.DjangoModelPermissions):
-#     # 检查是否有读取的权限
-#
-#     perms_map = {
-#         'GET': ['%(app_label)s.read_%(model_name)s'],
-#         'OPTIONS': ['%(app_label)s.read_%(model_name)s'],
-#         'HEAD': ['%(app_label)s.read_%(model_name)s'],
-#         'POST': [],
-#         'PUT': [],
-#         'PATCH': [],
-#         'DELETE': [],
-#     }

@@ -113,7 +113,7 @@ class CompanyInfo(models.Model):
     phone = models.CharField(verbose_name=u'联系方式', max_length=12, blank=True)
 
 class RecruitInfo(models.Model):
-    owner = models.ForeignKey('Hr', related_name='hr')
+    owner = models.ForeignKey('Hr', related_name='recruit')
     position = models.CharField(verbose_name=u'招聘岗位', max_length=60, blank=True)
     recruiting_number = models.IntegerField(verbose_name=u'招聘人数', blank=True)
     educational_requirement = models.CharField(verbose_name=u'学历要求', max_length=60, blank=True)
