@@ -1,8 +1,8 @@
 # --coding: utf-8--
-from django.test import TestCase
 from django.utils.six import BytesIO
 from rest_framework.parsers import JSONParser
-from webuser.serializers import StudentSerializer
+
+from api.v1.serializers import StudentSerializer
 
 
 # Create your tests here.

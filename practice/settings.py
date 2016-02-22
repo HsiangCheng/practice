@@ -40,6 +40,8 @@ INSTALLED_APPS = (
     'rest_framework',
     'rest_framework.authtoken',
     'webuser',
+    'rest_framework_docs',
+    'rest_framework_swagger',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -102,8 +104,10 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': (
         # 'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
+        # 'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.TokenAuthentication',
     )
 }
 
+SWAGGER_SETTINGS = {
+}

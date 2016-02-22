@@ -1,45 +1,32 @@
 # --coding: utf-8--
 from collections import OrderedDict
-from django.core import validators
+
 from django.db import IntegrityError
 from rest_framework import serializers
-from django.contrib.auth.models import User
 from rest_framework.fields import SkipField
-from webuser.exceptions import UniqueError
+
+from api.v1.exceptions import UniqueError
 from webuser.models import *
-import re
+
 
 class UserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
+    username_plus = serializers.CharField(source='username')
     class Meta:
         model = User
-        fields = ( 'username','password' ,'email',)
+        fields = ( 'username','password' ,'email', 'username_plus',)
+
 
 class PasswordSerializer(serializers.Serializer):
     password = serializers.CharField(max_length=128,write_only=True)
 
-# class StudentSerializer(serializers.ModelSerializer):
-#     user = UserSerializer()
-#
-#     class Meta:
-#         model = Student
-#         fields = ('user', 'full_name')
-#
-#     def create(self, validated_data):
-#         user_data = validated_data.pop('user')
-#         user = User.objects.create(**user_data)
-#         user.set_password(user_data['password'])
-#         user.save()
-#         student = Student.objects.create(user=user, **validated_data)
-#         return student
-
 class StudentSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
-    username = serializers.CharField(required=True,max_length=30,
+    username = serializers.CharField(max_length=30,
         validators=[
             validators.RegexValidator(r'^[\w.@+-]+$', 'Enter a valid username.', 'invalid')
         ])
-    password = serializers.CharField(max_length=128,write_only=True)
+    password = serializers.CharField(max_length=128, write_only=True)
     email = serializers.EmailField(required=False)
     full_name =  serializers.CharField(max_length=30, required=False)
 
@@ -123,21 +110,35 @@ class StudentSerializer(serializers.Serializer):
     #         raise serializers.ValidationError("Blog post is not about Django")
     #     return value
 
-
+class CompanyInfoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CompanyInfo
+        exclude = ('id', 'owner')
 
 class HrSerializer(serializers.ModelSerializer):
-    user = UserSerializer()
+    username = serializers.CharField(source='user.username',
+                                 max_length=30,
+                                 validators=[
+                                     validators.RegexValidator(r'^[\w.@+-]+$', 'Enter a valid username.', 'invalid')
+                                 ])
+    email = serializers.EmailField(source='user.email', required=False)
+    password = serializers.CharField(source='user.password', max_length=128, write_only=True)
+    groups = serializers.StringRelatedField(source='user.groups', many=True, read_only=True)
+    company = CompanyInfoSerializer(many=False)
 
     class Meta:
         model = Hr
-        fields = ('user', 'full_name')
+        fields = ('__all__')
+
+    def validate_username(self, value):
+        if User.objects.filter(username=value).count() > 0:
+            raise serializers.ValidationError("User with this username already exists.")
+        return value
 
     def create(self, validated_data):
-        user_data = validated_data.pop('user')
-        user = User.objects.create(**user_data)
-        user.set_password(user_data['password'])
-        user.save()
-        hr = Hr.objects.create(user=user, **validated_data)
+        data = dict(validated_data)
+        data.update(data.pop('user'))
+        hr = Hr.objects.create_hr(**data)
         return hr
 
     # def update(self, instance, validated_data):
