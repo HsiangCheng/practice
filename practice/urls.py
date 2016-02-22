@@ -1,22 +1,12 @@
 # --coding: utf-8--
+from django.conf import settings
 from django.conf.urls import patterns, include, url
 from django.conf.urls.static import static
 from django.contrib import admin
 from rest_framework import routers
 from django.contrib.auth.views import login, logout
-
-from api.v1.routers import SingleRouter
-from api.v1.views import AuthTokenView
 from webuser.views import *
 from webuser.forms import LoginForm
-
-router = routers.DefaultRouter()
-router.register(r'test', TestViewSet, "test")
-router.register(r'student', StudentViewSet)
-router.register(r'hr', HrViewSet)
-
-test_router = SingleRouter()
-test_router.register(r'test', TestViewSet, "test")
 
 
 

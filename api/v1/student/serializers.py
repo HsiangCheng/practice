@@ -2,7 +2,13 @@
 from django.contrib.auth.models import User
 from django.core.validators import RegexValidator
 from rest_framework import serializers
-from webuser.models import Student
+from webuser.models import Student, Resume
+
+class ResumeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Resume
+        exclude = ('owner', )
+        read_only_fields = ('id',)
 
 
 class StudentSerializer(serializers.ModelSerializer):
@@ -13,7 +19,7 @@ class StudentSerializer(serializers.ModelSerializer):
                                          RegexValidator(r'^[\w.@+-]+$', 'Enter a valid username.', 'invalid')
                                      ])
     email = serializers.EmailField(source='user.email', required=False)
-    # resume = ResumeSerializer(many=False)
+    resume = ResumeSerializer(many=False)
 
     class Meta:
         model = Student
@@ -33,8 +39,15 @@ class StudentSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         data = validated_data.copy()
+        # user
         if data.has_key('user') and data['user'].has_key('email'):
             instance.user.email = data.pop('user').get('email')
             instance.user.save()
+        # resume
+        if data.has_key('resume'):
+            resume_data = data.pop('resume')
+            for attr, value in resume_data.items():
+                setattr(instance, attr, value)
+            instance.save()
         super(StudentSerializer, self).update(instance, data)
         return instance

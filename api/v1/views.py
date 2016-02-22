@@ -31,24 +31,3 @@ class AuthTokenView(ObtainAuthToken):
                 'groups': groups,
             }
         )
-
-# class APIRootView(APIView):
-#     def get(self, request):
-#         data = {
-#             'account-root':
-#                 reverse(
-#                     'api:v1:account:account-root',
-#                     request=request
-#                 ),
-#             'student-root':
-#                 reverse(
-#                     'api:v1:student:student-root',
-#                     request=request
-#                 ),
-#             'hr-root':
-#                 reverse(
-#                     'api:v1:hr:hr-root',
-#                     request=request
-#                 ),
-#         }
-#         return Response(data)
