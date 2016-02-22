@@ -13,8 +13,6 @@ from webuser.forms import LoginForm
 
 urlpatterns = patterns('',
     # Examples:
-    # url(r'^$', 'practice.views.home', name='home'),
-    # url(r'^blog/', include('blog.urls')),
     url(r'^api/', include('api.urls', namespace='api')),
     url(r'^admin/', include(admin.site.urls)),
     # url(r'^$', APIRootView.as_view()),
