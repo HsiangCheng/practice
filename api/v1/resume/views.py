@@ -13,12 +13,14 @@ class ResumeListAPIView(ListModelMixin, GenericAPIView):
 
     def get(self, request):
         """
+        获取简历列表（需Hr登录）
         ---
         parameters:
             - name: Authorization
               paramType: header
               required: True
               type: string
+              description: 用户的验证令牌，填写格式：Token *********
         """
         return self.list(request)
 
@@ -29,12 +31,14 @@ class ResumeDetailAPIView(RetrieveModelMixin, GenericAPIView):
 
     def get(self, request, pk=None):
         """
+        获取一个简历（需Hr登录或者拥有者登录）
         ---
         parameters:
             - name: Authorization
               paramType: header
               required: True
               type: string
+              description: 用户的验证令牌，填写格式：Token *********
         """
         return self.retrieve(request)
 

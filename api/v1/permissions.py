@@ -3,17 +3,31 @@ from rest_framework import permissions
 from rest_framework.permissions import SAFE_METHODS
 from webuser.models import *
 
-class IsOwnerPermission(permissions.BasePermission):
+class IsOwner(permissions.BasePermission):
     # 对象级权限
     # 检查user是不是创建者
 
     def has_object_permission(self, request, view, obj):
-        return obj.owner == request.user
+        return (
+            request.user.is_authenticated() and
+            obj.owner.user == request.user
+        )
 
-class IsOwnerOrViewerPermission(permissions.BasePermission):
+class IsOwnerOrReadOnly(permissions.BasePermission):
+    # 对象级权限
+    # 写入：创建者，只读：任何人
+
+    def has_object_permission(self, request, view, obj):
+        return (
+            request.method in SAFE_METHODS or
+            request.user.is_authenticated() and
+            obj.owner.user == request.user
+        )
+
+class IsOwnerOrViewer(permissions.BasePermission):
     pass
 
-class IsUserPermission(permissions.BasePermission):
+class IsUser(permissions.BasePermission):
     # 对象级权限
     # 检查user是不是关联者
 
