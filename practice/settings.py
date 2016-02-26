@@ -40,7 +40,6 @@ INSTALLED_APPS = (
     'rest_framework',
     'rest_framework.authtoken',
     'webuser',
-    'rest_framework_docs',
     'rest_framework_swagger',
 )
 
