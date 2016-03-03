@@ -47,7 +47,7 @@ class StudentSerializer(serializers.ModelSerializer):
         if data.has_key('resume'):
             resume_data = data.pop('resume')
             for attr, value in resume_data.items():
-                setattr(instance, attr, value)
-            instance.save()
+                setattr(instance.resume, attr, value)
+            instance.resume.save()
         super(StudentSerializer, self).update(instance, data)
         return instance
