@@ -1,6 +1,6 @@
 # --coding: utf-8--
 from rest_framework.generics import GenericAPIView
-from rest_framework.mixins import UpdateModelMixin, RetrieveModelMixin
+from rest_framework.mixins import UpdateModelMixin, RetrieveModelMixin, CreateModelMixin
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
@@ -48,5 +48,6 @@ class StudentDetailAPIView(UpdateModelMixin, RetrieveModelMixin, GenericAPIView)
         """
         return self.partial_update(request)
 
+# class StudentLabelAddAPIView(CreateModelMixin, GenericAPIView):
 
 

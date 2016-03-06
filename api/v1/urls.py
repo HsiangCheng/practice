@@ -8,4 +8,5 @@ urlpatterns = [
     url(r'^hr/', include('api.v1.hr.urls')),
     url(r'^resume/', include('api.v1.resume.urls')),
     url(r'^recruit/', include('api.v1.recruit.urls')),
+    url(r'^label/', include('api.v1.label.urls')),
 ]

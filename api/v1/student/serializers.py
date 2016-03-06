@@ -2,13 +2,24 @@
 from django.contrib.auth.models import User
 from django.core.validators import RegexValidator
 from rest_framework import serializers
-from webuser.models import Student, Resume
+from webuser.models import Student, Resume, Label, StudentHrEmploy
+
 
 class ResumeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Resume
-        exclude = ('owner', )
+        exclude = ('owner',)
         read_only_fields = ('id',)
+
+
+class LabelAddOnlyWriteSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
+
+
+class StudentHrEmploySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = StudentHrEmploy
+
 
 
 class StudentSerializer(serializers.ModelSerializer):
@@ -20,10 +31,11 @@ class StudentSerializer(serializers.ModelSerializer):
                                      ])
     email = serializers.EmailField(source='user.email', required=False)
     resume = ResumeSerializer(many=False)
+    labels = serializers.StringRelatedField(many=True, read_only=True)
 
     class Meta:
         model = Student
-        exclude = ('user', )
+        exclude = ('user',)
         read_only_fields = ('id',)
 
     def validate_username(self, value):
