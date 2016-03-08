@@ -4,6 +4,9 @@ from django.core.validators import RegexValidator
 from rest_framework import serializers
 from webuser.models import Student, Resume, Label, StudentHrEmploy
 
+class CurrentStudentDefault(serializers.CurrentUserDefault):
+    def set_context(self, serializer_field):
+        self.user = serializer_field.context['request'].user.student
 
 class ResumeSerializer(serializers.ModelSerializer):
     class Meta:
@@ -12,13 +15,48 @@ class ResumeSerializer(serializers.ModelSerializer):
         read_only_fields = ('id',)
 
 
-class LabelAddOnlyWriteSerializer(serializers.Serializer):
-    id = serializers.IntegerField()
+class LabelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Label
+        exclude = ('student', )
 
 
-class StudentHrEmploySerializer(serializers.ModelSerializer):
+class LabelAddSerializer(serializers.Serializer):
+    model = Student
+    # Write
+    student = serializers.HiddenField(default=CurrentStudentDefault(), write_only=True)
+    label_ids = serializers.CharField(write_only=True,
+                                      validators=[
+                                          RegexValidator(r'^[\w,]+$', u'格式不合法', 'invalid')
+                                      ])
+    # Read
+    labels = LabelSerializer(many=True, read_only=True)
+
+    # def validate_student(self, value):
+    #     if not self.model.objects.filter(user__username=value).exists():
+    #         raise serializers.ValidationError(u'用户不存在')
+    #     return value
+
+    def create(self, validated_data):
+        instance = validated_data['student']
+        label_ids = validated_data['label_ids']
+        label_ids = label_ids.split(',')
+        for label_id in label_ids:
+            instance.labels.add(int(label_id))
+        return instance
+
+
+class StudentInvitationSerializer(serializers.ModelSerializer):
+    date_joined = serializers.DateTimeField(format='%Y-%m-%d %H:%M:%S', read_only=True)
+    last_change = serializers.DateTimeField(format='%Y-%m-%d %H:%M:%S', read_only=True)
+    recruit_name = serializers.CharField(source='recruit.position', read_only=True)
+    company_name = serializers.CharField(source='hr.company.company_name', read_only=True)
+
     class Meta:
         model = StudentHrEmploy
+        exclude = ('student', 'master')
+        read_only_fields = ('hr', 'recruit')
+
 
 
 
@@ -31,7 +69,8 @@ class StudentSerializer(serializers.ModelSerializer):
                                      ])
     email = serializers.EmailField(source='user.email', required=False)
     resume = ResumeSerializer(many=False)
-    labels = serializers.StringRelatedField(many=True, read_only=True)
+
+    # labels = LabelSerializer(many=True, read_only=True)
 
     class Meta:
         model = Student

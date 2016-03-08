@@ -112,9 +112,10 @@ class HrManager(Manager):
 
 class Hr(models.Model):
     user = models.OneToOneField(User, related_name='hr')
-    target = models.ManyToManyField('Student',
-                                    through='StudentHrEmploy',
-                                    through_fields=('hr', 'student'))
+    targets = models.ManyToManyField('Student',
+                                     related_name='hrs',
+                                     through='StudentHrEmploy',
+                                     through_fields=('hr', 'student'))
     objects = HrManager()
 
     def delete(self, using=None):
@@ -131,7 +132,7 @@ class CompanyInfo(models.Model):
 
 
 class RecruitInfo(models.Model):
-    owner = models.ForeignKey('Hr', verbose_name=u'拥有者', related_name='recruit')
+    owner = models.ForeignKey('Hr', verbose_name=u'拥有者', related_name='recruits')
     position = models.CharField(verbose_name=u'招聘岗位', max_length=60, blank=True)
     recruiting_number = models.IntegerField(verbose_name=u'招聘人数', blank=True)
     educational_requirement = models.CharField(verbose_name=u'学历要求', max_length=60, blank=True)
@@ -166,4 +167,3 @@ class StudentHrEmploy(models.Model):
         # db_table以后需要考虑写成动态的
         db_table = 'webuser_student_hr_employ'
         unique_together = ('student', 'hr', 'recruit')
-

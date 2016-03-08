@@ -4,6 +4,7 @@ from webuser.models import Resume
 
 
 class ResumeFullSerializer(serializers.ModelSerializer):
+    student_id = serializers.IntegerField(source='owner.id')
     name = serializers.ReadOnlyField(source='owner.name')
     sex = serializers.ReadOnlyField(source='owner.sex')
     phone = serializers.ReadOnlyField(source='owner.phone')

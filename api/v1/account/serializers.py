@@ -24,7 +24,7 @@ class StudentSignupSerializer(ModelSerializer):
         read_only_fields = ('id', )
 
     def validate_username(self, value):
-        if User.objects.filter(username=value).count() > 0:
+        if User.objects.filter(username=value).exists():
             raise serializers.ValidationError(u'用户已存在')
         return value
 
@@ -49,7 +49,7 @@ class HrSignupSerializer(ModelSerializer):
         read_only_fields = ('id', )
 
     def validate_username(self, value):
-        if User.objects.filter(username=value).count() > 0:
+        if User.objects.filter(username=value).exists():
             raise serializers.ValidationError(u'用户已存在')
         return value
 
