@@ -9,6 +9,7 @@ class ResumeFullSerializer(serializers.ModelSerializer):
     sex = serializers.ReadOnlyField(source='owner.sex')
     phone = serializers.ReadOnlyField(source='owner.phone')
     email = serializers.ReadOnlyField(source='owner.user.email')
+    labels = serializers.StringRelatedField(source='owner.labels', many=True)
     class Meta:
         model = Resume
         exclude = ('owner', )

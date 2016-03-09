@@ -43,16 +43,11 @@ class RecruitListAPIView(CreateModelMixin, ListModelMixin, GenericAPIView):
         """
         发布招聘信息（需Hr登录）
         ---
-        omit_parameters:
-            - form
         parameters:
             - name: Authorization
               paramType: header
               required: True
               type: string
-            - name: body
-              type: WriteRecruitSerializer
-              paramType: body
         """
         return self.create(request)
 
