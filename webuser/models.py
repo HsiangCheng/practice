@@ -12,6 +12,8 @@ from django.dispatch import receiver
 from rest_framework.authtoken.models import Token
 import time
 
+APP_NAME = 'webuser'
+
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_auth_token(sender, instance=None, created=False, **kwargs):
@@ -165,5 +167,39 @@ class StudentHrEmploy(models.Model):
 
     class Meta:
         # db_table以后需要考虑写成动态的
-        db_table = 'webuser_student_hr_employ'
+        db_table = '%s_student_hr_employ' % APP_NAME
         unique_together = ('student', 'hr', 'recruit')
+
+
+class TIEQuestion(models.Model):
+    # id与文档题号绝对对应
+    id = models.IntegerField(verbose_name=u'题目序号', primary_key=True)
+    question = models.TextField(verbose_name=u'问题')
+    student = models.ManyToManyField("Student",
+                                     related_name='tie_questions',
+                                     through="TIEReply",
+                                     through_fields=('question', 'student'))
+
+    class Meta:
+        db_table = '%s_tie_question' % APP_NAME
+
+
+class TIEReply(models.Model):
+    YES = u'是'
+    NO = u'否'
+    NONE = u''
+    REPLY_CHOICES = (
+        (YES, u'是'),
+        (NO, u'否'),
+        (NONE, u'空'),
+    )
+    student = models.ForeignKey("Student", verbose_name=u'学生')
+    question = models.ForeignKey("TIEQuestion", verbose_name=u'TIE问题')
+    reply = models.CharField(verbose_name=u'回答',
+                             max_length=10,
+                             choices=REPLY_CHOICES,
+                             default=NONE)
+
+    class Meta:
+        db_table = '%s_tie_reply' % APP_NAME
+

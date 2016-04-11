@@ -34,6 +34,7 @@ class StudentSignupSerializer(ModelSerializer):
         instance = self.Meta.model.objects.create_student(**data)
         return instance
 
+
 class HrSignupSerializer(ModelSerializer):
     username = CharField(source='user.username',
                                  max_length=30,
@@ -59,8 +60,10 @@ class HrSignupSerializer(ModelSerializer):
         instance = self.Meta.model.objects.create_hr(**data)
         return instance
 
+
 class PasswordChangeSerializer(Serializer):
     # 这个序列化器只是为了向测试页面提供字段，并无实际用处
     password = CharField(source='user.password', max_length=128, write_only=True)
     new_password = CharField(source='user.password', max_length=128, write_only=True)
+
 

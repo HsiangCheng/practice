@@ -2,11 +2,13 @@
 from django.contrib.auth.models import User
 from django.core.validators import RegexValidator
 from rest_framework import serializers
-from webuser.models import Student, Resume, Label, StudentHrEmploy
+from webuser.models import Student, Resume, Label, StudentHrEmploy, TIEReply, TIEQuestion
+
 
 class CurrentStudentDefault(serializers.CurrentUserDefault):
     def set_context(self, serializer_field):
         self.user = serializer_field.context['request'].user.student
+
 
 class ResumeSerializer(serializers.ModelSerializer):
     class Meta:
@@ -18,7 +20,7 @@ class ResumeSerializer(serializers.ModelSerializer):
 class LabelSerializer(serializers.ModelSerializer):
     class Meta:
         model = Label
-        exclude = ('student', )
+        exclude = ('student',)
 
 
 class LabelAddSerializer(serializers.Serializer):
@@ -56,8 +58,6 @@ class StudentInvitationSerializer(serializers.ModelSerializer):
         model = StudentHrEmploy
         exclude = ('student', 'master')
         read_only_fields = ('hr', 'recruit')
-
-
 
 
 class StudentSerializer(serializers.ModelSerializer):
@@ -102,3 +102,16 @@ class StudentSerializer(serializers.ModelSerializer):
             instance.resume.save()
         super(StudentSerializer, self).update(instance, data)
         return instance
+
+
+class TIEReplySerializer(serializers.ModelSerializer):
+    # student = serializers.HiddenField(default=CurrentStudentDefault, write_only=True)
+
+    class Meta:
+        model = TIEReply
+
+
+class TIEQuestionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TIEQuestion
+        exclude = ('student',)

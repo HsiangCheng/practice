@@ -8,8 +8,9 @@ from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from rest_framework.views import APIView
 from api.v1.permissions import IsUser, IsStudent, IsOwner
-from api.v1.student.serializers import StudentSerializer, LabelAddSerializer, StudentInvitationSerializer
-from webuser.models import Student, Label, StudentHrEmploy
+from api.v1.student.serializers import StudentSerializer, LabelAddSerializer, StudentInvitationSerializer, \
+    TIEQuestionSerializer
+from webuser.models import Student, Label, StudentHrEmploy, TIEQuestion
 
 
 class StudentDetailAPIView(UpdateModelMixin, RetrieveModelMixin, GenericAPIView):
@@ -188,4 +189,10 @@ class StudentInvitationDetailAPIView(RetrieveModelMixin, UpdateModelMixin, Gener
         return self.partial_update(request)
 
 
+class QuestionnaireAPIView(ListModelMixin, GenericAPIView):
+    model = TIEQuestion
+    serializer_class = TIEQuestionSerializer
+    queryset = model.objects.all()
 
+    def get(self, request):
+        return self.list(request)
