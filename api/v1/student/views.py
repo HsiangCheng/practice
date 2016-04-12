@@ -13,7 +13,8 @@ from api.v1.student.serializers import StudentSerializer, LabelAddSerializer, St
     TIEQuestionSerializer, TIEReplySerializer
 from webuser.models import Student, Label, StudentHrEmploy, TIEQuestion, TIEReply
 
-tie_label_table = {
+# TIE问卷回答数据到标签的映射
+tie_label_mapping = {
     u'追求完美': {1: u'是', 5: u'否'},
     u'奉献主义': {2: u'是', 8: u'否'},
     u'实干要强': {3: u'否', 10: u'是'},
@@ -34,7 +35,7 @@ def get_tie_label(reply):
     """
     labels = []
     # 遍历标签
-    for label_name, conditions in tie_label_table.items():
+    for label_name, conditions in tie_label_mapping.items():
         res = True
         # 遍历条件
         for condition_id, condition in conditions.items():
