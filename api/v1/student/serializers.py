@@ -2,6 +2,8 @@
 from django.contrib.auth.models import User
 from django.core.validators import RegexValidator
 from rest_framework import serializers
+from rest_framework.fields import empty
+
 from webuser.models import Student, Resume, Label, StudentHrEmploy, TIEReply, TIEQuestion
 
 
@@ -78,7 +80,7 @@ class StudentSerializer(serializers.ModelSerializer):
         read_only_fields = ('id',)
 
     def validate_username(self, value):
-        if User.objects.filter(username=value).count() > 0:
+        if User.objects.filter(username=value).exists():
             raise serializers.ValidationError("User with this username already exists.")
         return value
 
@@ -103,12 +105,27 @@ class StudentSerializer(serializers.ModelSerializer):
         super(StudentSerializer, self).update(instance, data)
         return instance
 
+#
+# class TIEReplyListSerializer(serializers.ListSerializer):
+#     pass
+
 
 class TIEReplySerializer(serializers.ModelSerializer):
     # student = serializers.HiddenField(default=CurrentStudentDefault, write_only=True)
+    # student = serializers.CharField()
+    # question = serializers.CharField()
+    # reply = serializers.CharField()
+
+    # def __init__(self, instance=None, data=empty, **kwargs):
+    #     kwargs['many'] = True
+    #     super(TIEReplySerializer, self).__init__(instance, data, **kwargs)
 
     class Meta:
         model = TIEReply
+        # list_serializer_class = TIEReplyListSerializer
+
+
+
 
 
 class TIEQuestionSerializer(serializers.ModelSerializer):

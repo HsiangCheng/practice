@@ -46,8 +46,18 @@ class Resume(models.Model):
 
 
 class Label(models.Model):
+    TIE = u'TIE测评'
+    NO_GROUP = u'未分组'
+    GROUP_CHOICES = (
+        (TIE, u'TIE测评'),
+        (NO_GROUP, u'未分组'),
+    )
     student = models.ManyToManyField('Student', related_name='labels')
     name = models.CharField(verbose_name=u'标签名称', max_length=128, unique=True)
+    group = models.CharField(verbose_name=u'标签分组',
+                             max_length=128,
+                             choices=GROUP_CHOICES,
+                             default=NO_GROUP)
 
     def __unicode__(self):
         return u'%s' % self.name
@@ -202,4 +212,5 @@ class TIEReply(models.Model):
 
     class Meta:
         db_table = '%s_tie_reply' % APP_NAME
+        unique_together = ('student', 'question')
 
