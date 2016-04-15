@@ -41,6 +41,7 @@ INSTALLED_APPS = (
     'rest_framework.authtoken',
     'webuser',
     'rest_framework_swagger',
+    'phone_code',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -73,15 +74,15 @@ DATABASES = {
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'cn-zh'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Shanghai'
 
 USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)
@@ -109,3 +110,5 @@ REST_FRAMEWORK = {
 
 SWAGGER_SETTINGS = {
 }
+
+PHONE_CODE_TIMEOUT = 120
