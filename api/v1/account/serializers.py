@@ -6,6 +6,8 @@ from rest_framework.fields import CharField, EmailField
 from rest_framework.relations import StringRelatedField
 from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer, Serializer
+
+from phone_code.models import PhoneCode
 from webuser.models import Student, Hr
 
 
@@ -17,6 +19,7 @@ class StudentSignupSerializer(ModelSerializer):
                                  ])
     email = EmailField(source='user.email', required=False)
     password = CharField(source='user.password', max_length=128, write_only=True)
+    code = CharField(write_only=True)
 
     class Meta:
         model = Student
@@ -28,8 +31,23 @@ class StudentSignupSerializer(ModelSerializer):
             raise serializers.ValidationError(u'用户已存在')
         return value
 
+    def validate_phone(self, value):
+        if Student.objects.filter(phone=value).exists():
+            raise serializers.ValidationError(u'手机号已存在')
+        return value
+
+    def validate(self, data):
+        phone = data['phone']
+        code = data['code']
+        # 验证验证码
+        if not PhoneCode.objects.check_code(phone, code):
+            raise serializers.ValidationError({'code': u'验证码错误'})
+        return data
+
     def create(self, validated_data):
         data = dict(validated_data)
+        # 去除code
+        data.pop('code')
         data.update(data.pop('user'))
         instance = self.Meta.model.objects.create_student(**data)
         return instance
