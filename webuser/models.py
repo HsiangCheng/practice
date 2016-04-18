@@ -95,7 +95,7 @@ class Student(models.Model):
     name = models.CharField(verbose_name=u"姓名", max_length=30, blank=True)
     sex = models.CharField(verbose_name=u'性别', max_length=4,
                            choices=SEX_CHOICES, default=NONE)
-    phone = models.CharField(verbose_name=u'手机号码', max_length=11, blank=True)
+    phone = models.CharField(verbose_name=u'手机号码', max_length=11)
 
     objects = StudentManager()
 

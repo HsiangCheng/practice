@@ -230,6 +230,10 @@ class QuestionnaireAPIView(ListModelMixin, GenericAPIView):
     queryset = model.objects.all()
 
     def get(self, request):
+        """
+        获取问卷题目
+        ---
+        """
         return self.list(request)
 
 
@@ -261,6 +265,7 @@ class TIEReplyAPIView(CreateModelMixin, GenericAPIView):
             - name: body
               paramType: body
               type: WriteTIEReplySerializer
+              description: 填写格式测试页面不好表达，请前往文档查看
         """
         for data in request.data:
             data['student'] = request.user.student.id
